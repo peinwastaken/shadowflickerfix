@@ -67,10 +67,10 @@ namespace shadowflickerfix
                 ));
 
             ShadowCascades = Config.Bind("General", "Shadow Cascades", EShadowCascades.Low, new ConfigDescription(
-                "Changes the amount of shadow cascades. Doesn't do anything that the graphics settings already don't. Didn't see a noticeable performance impact.",
-                null,
-                new ConfigurationManagerAttributes { Order = 990 }
-            ));
+                    "Changes the amount of shadow cascades. Doesn't do anything that the graphics settings already don't. Didn't see a noticeable performance impact.",
+                    null,
+                    new ConfigurationManagerAttributes { Order = 990 }
+                ));
 
             SMAAEnabled = Config.Bind(antialias, "SMAA", false, new ConfigDescription(
                     "Enables SMAA. TAA and Tarkov's FXAA suck. Simple as.",
