@@ -31,6 +31,9 @@
     <Reference Include="spt-reflection">
       <HintPath>dependencies\spt-reflection.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>dependencies\Unity.Postprocessing.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>dependencies\UnityEngine.dll</HintPath>
     </Reference>
