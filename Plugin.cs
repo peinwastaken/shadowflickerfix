@@ -96,7 +96,7 @@ namespace shadowflickerfix
 
             // Shadows
             ShadowChangesEnabled = Config.Bind(shadows, "Enable Shadow Changes", false, new ConfigDescription(
-                    "SOME OF THESE SETTINGS WILL REDUCE FPS! Enables shadow config changes. These settings can either make shadows look really nice or really bad. Map change required after disabling.",
+                    "SOME OF THESE SETTINGS WILL REDUCE FPS NOTICEABLY! Enables shadow config changes. These settings can either make shadows look really nice or really bad. Map change required after disabling.",
                     null,
                     new ConfigurationManagerAttributes { Order = 999 }
                 ));
