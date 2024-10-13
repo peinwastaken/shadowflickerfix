@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using EFT.EnvironmentEffect;
-using UnityEngine.Scripting;
 
 namespace shadowflickerfix.Helpers
 {

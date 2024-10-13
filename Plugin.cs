@@ -17,7 +17,7 @@ namespace shadowflickerfix
         High = 4,
     }
 
-    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.0.1")]
+    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.1.0")]
     public class Plugin : BaseUnityPlugin
     {
         // Distant Shadows
@@ -107,13 +107,13 @@ namespace shadowflickerfix
                     new ConfigurationManagerAttributes { Order = 990 }
                 ));
 
-            ShadowResolution = Config.Bind(shadows, "Shadow Quality", UnityEngine.ShadowResolution.VeryHigh, new ConfigDescription(
+            ShadowResolution = Config.Bind(shadows, "Shadow Quality", UnityEngine.ShadowResolution.High, new ConfigDescription(
                     "Changes the shadowmap resolution. Will reduce FPS.",
                     null,
                     new ConfigurationManagerAttributes { Order = 990 }
                 ));
 
-            ShadowDecreaseFactor = Config.Bind(shadows, "Shadow Decrease Factor", 2f, new ConfigDescription(
+            ShadowDecreaseFactor = Config.Bind(shadows, "Shadow Decrease Factor", 0.5f, new ConfigDescription(
                     "Changes the shadow decrease factor. Lowering the value sharpens the shadows considerably but also reduces FPS.",
                     new AcceptableValueRange<float>(0.01f, 5f),
                     new ConfigurationManagerAttributes { Order = 990 }
@@ -125,13 +125,13 @@ namespace shadowflickerfix
                     new ConfigurationManagerAttributes { Order = 990 }
                 ));
 
-            ShadowIntervalFirst = Config.Bind(shadows, "Shadow Interval 1", new Vector2(25, 45), new ConfigDescription(
+            ShadowIntervalFirst = Config.Bind(shadows, "Shadow Interval 1", new Vector2(10f, 50f), new ConfigDescription(
                     "Changes the distance at which shadows start fading from one quality to another. I think.",
                     null,
                     new ConfigurationManagerAttributes { Order = 990 }
                 ));
 
-            ShadowIntervalSecond = Config.Bind(shadows, "Shadow Interval 2", new Vector2(50, 100), new ConfigDescription(
+            ShadowIntervalSecond = Config.Bind(shadows, "Shadow Interval 2", new Vector2(75f, 100f), new ConfigDescription(
                     "Changes the distance at which shadows start fading from one quality to another. I think.",
                     null,
                     new ConfigurationManagerAttributes { Order = 990 }
