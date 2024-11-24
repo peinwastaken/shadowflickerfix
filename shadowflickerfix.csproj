@@ -17,28 +17,90 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>dependencies\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>dependencies\BepInEx.dll</HintPath>
+      <HintPath>..\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Comfort">
-      <HintPath>dependencies\Comfort.dll</HintPath>
+      <HintPath>..\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="spt-custom">
-      <HintPath>dependencies\spt-custom.dll</HintPath>
+      <HintPath>..\BepInEx\plugins\spt\spt-custom.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="spt-reflection">
-      <HintPath>dependencies\spt-reflection.dll</HintPath>
+      <HintPath>..\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>dependencies\Unity.Postprocessing.Runtime.dll</HintPath>
+      <HintPath>..\EscapeFromTarkov_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>dependencies\UnityEngine.dll</HintPath>
+      <HintPath>..\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>dependencies\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Core">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Data">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Drawing">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.IO.Compression.FileSystem">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Numerics">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Runtime.Serialization">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Xml">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Update="System.Xml.Linq">
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 </Project>

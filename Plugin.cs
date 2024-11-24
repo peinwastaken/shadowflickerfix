@@ -17,7 +17,7 @@ namespace shadowflickerfix
         High = 4,
     }
 
-    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.0.2")]
+    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.0.3")]
     public class Plugin : BaseUnityPlugin
     {
         // Distant Shadows
@@ -76,8 +76,9 @@ namespace shadowflickerfix
                 EAntialiasingMode lastAntiAliasing = SetAntiAliasingPatch.lastAntiAliasingMode;
                 EDLSSMode lastDlss = SetAntiAliasingPatch.lastDlssMode;
                 EFSR2Mode lastFSR = SetAntiAliasingPatch.lastFSR2Mode;
+                EFSR3Mode lastFSR3 = SetAntiAliasingPatch.lastFSR3Mode;
 
-                CameraClass.Instance.SetAntiAliasing(lastAntiAliasing, lastDlss, lastFSR);
+                CameraClass.Instance.SetAntiAliasing(lastAntiAliasing, lastDlss, lastFSR, lastFSR3);
             }
         }
 
@@ -98,56 +99,56 @@ namespace shadowflickerfix
             ShadowChangesEnabled = Config.Bind(shadows, "Enable Shadow Changes", false, new ConfigDescription(
                     "SOME OF THESE SETTINGS WILL REDUCE FPS NOTICEABLY! Enables shadow config changes. These settings can either make shadows look really nice or really bad. Map change required after disabling.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 999 }
+                    new ConfigurationManagerAttributes { Order = 990 }
                 ));
 
             ShadowCascades = Config.Bind(shadows, "Shadow Cascades", EShadowCascades.High, new ConfigDescription(
                     "Changes the amount of shadow cascades. Didn't see a noticeable performance impact.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 990 }
+                    new ConfigurationManagerAttributes { Order = 980 }
                 ));
 
             ShadowResolution = Config.Bind(shadows, "Shadow Quality", UnityEngine.ShadowResolution.High, new ConfigDescription(
                     "Changes the shadowmap resolution. Will reduce FPS.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 990 }
+                    new ConfigurationManagerAttributes { Order = 970 }
                 ));
 
             ShadowDecreaseFactor = Config.Bind(shadows, "Shadow Decrease Factor", 0.5f, new ConfigDescription(
                     "Changes the shadow decrease factor. Lowering the value sharpens the shadows considerably but also reduces FPS.",
                     new AcceptableValueRange<float>(0.01f, 5f),
-                    new ConfigurationManagerAttributes { Order = 990 }
+                    new ConfigurationManagerAttributes { Order = 960 }
                 ));
 
             ShadowMinimumDistance = Config.Bind(shadows, "Minimum Shadow Distance", 20f, new ConfigDescription(
                     "Changes the minimum shadow distance. At least that's my very best guess. No clue what it actually does, but it's here if you want to play around with it.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 990 }
+                    new ConfigurationManagerAttributes { Order = 950 }
                 ));
 
             ShadowIntervalFirst = Config.Bind(shadows, "Shadow Interval 1", new Vector2(10f, 50f), new ConfigDescription(
                     "Changes the distance at which shadows start fading from one quality to another. I think.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 990 }
+                    new ConfigurationManagerAttributes { Order = 940 }
                 ));
 
             ShadowIntervalSecond = Config.Bind(shadows, "Shadow Interval 2", new Vector2(75f, 100f), new ConfigDescription(
                     "Changes the distance at which shadows start fading from one quality to another. I think.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 990 }
+                    new ConfigurationManagerAttributes { Order = 930 }
                 ));
 
             // Anti-Aliasing
             SMAAEnabled = Config.Bind(antialias, "SMAA", false, new ConfigDescription(
                     "Enables SMAA. TAA and Tarkov's FXAA suck. Simple as. DO NOT use with upscaling because it makes the image really blurry.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 980 }
+                    new ConfigurationManagerAttributes { Order = 920 }
                 ));
 
             SMAAQuality = Config.Bind(antialias, "SMAA Quality", SubpixelMorphologicalAntialiasing.Quality.High, new ConfigDescription(
                     "Changes SMAA Quality.",
                     null,
-                    new ConfigurationManagerAttributes { Order = 970 }
+                    new ConfigurationManagerAttributes { Order = 910 }
                 ));
 
             // Method binds

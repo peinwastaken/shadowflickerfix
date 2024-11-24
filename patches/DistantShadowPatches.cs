@@ -17,7 +17,11 @@ namespace shadowflickerfix.patches
         [PatchPostfix]
         private static void PatchPostfix(GameWorld __instance)
         {
-            // update on load!!!
+            // this is odd. sorry.
+            // reset component cache on map load
+            Util.ResetComponentCache();
+
+            // update all the components
             Plugin.OnUpdateSettings(null, null);
         }
     }
@@ -28,6 +32,7 @@ namespace shadowflickerfix.patches
         public static EAntialiasingMode lastAntiAliasingMode;
         public static EDLSSMode lastDlssMode;
         public static EFSR2Mode lastFSR2Mode;
+        public static EFSR3Mode lastFSR3Mode;
 
         protected override MethodBase GetTargetMethod()
         {
