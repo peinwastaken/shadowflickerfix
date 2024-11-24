@@ -17,35 +17,35 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>..\..\BepInEx\core\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Comfort">
-      <HintPath>..\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="spt-custom">
-      <HintPath>..\BepInEx\plugins\spt\spt-custom.dll</HintPath>
+      <HintPath>..\..\BepInEx\plugins\spt\spt-custom.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="spt-reflection">
-      <HintPath>..\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+      <HintPath>..\..\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>..\EscapeFromTarkov_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
