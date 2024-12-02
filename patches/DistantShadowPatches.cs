@@ -40,7 +40,7 @@ namespace shadowflickerfix.patches
         }
 
         [PatchPostfix]
-        public static void PostPatchfix(CameraClass __instance, EAntialiasingMode quality, EDLSSMode dlssMode, EFSR2Mode fsr2Mode)
+        public static void PostPatchfix(CameraClass __instance, EAntialiasingMode quality, EDLSSMode dlssMode, EFSR2Mode fsr2Mode, EFSR3Mode fsr3Mode)
         {
             PostProcessLayer ppLayer = Util.GetPostProcessLayer();
             SubpixelMorphologicalAntialiasing smaa = ppLayer.subpixelMorphologicalAntialiasing;
@@ -49,6 +49,7 @@ namespace shadowflickerfix.patches
             lastAntiAliasingMode = quality;
             lastDlssMode = dlssMode;
             lastFSR2Mode = fsr2Mode;
+            lastFSR3Mode = fsr3Mode;
 
             if (Plugin.SMAAEnabled.Value == true)
             {
