@@ -17,7 +17,7 @@ namespace shadowflickerfix
         High = 4,
     }
 
-    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.0.4")]
+    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.5.0")]
     public class Plugin : BaseUnityPlugin
     {
         // Distant Shadows
@@ -27,6 +27,7 @@ namespace shadowflickerfix
         public static ConfigEntry<bool> ShadowChangesEnabled { get; set; }
         public static ConfigEntry<EShadowCascades> ShadowCascades { get; set; }
         public static ConfigEntry<ShadowResolution> ShadowResolution { get; set; }
+        public static ConfigEntry<bool> AdvancedShadowChangesEnabled { get; set; }
         public static ConfigEntry<float> ShadowDecreaseFactor { get; set; }
         public static ConfigEntry<float> ShadowMinimumDistance { get; set; }
         public static ConfigEntry<Vector2> ShadowIntervalFirst { get; set; }
@@ -35,6 +36,12 @@ namespace shadowflickerfix
         // Anti-Aliasing
         public static ConfigEntry<bool> SMAAEnabled { get; set; }
         public static ConfigEntry<SubpixelMorphologicalAntialiasing.Quality> SMAAQuality { get; set; }
+        public static ConfigEntry<bool> TAAChangesEnabled { get; set; }
+        public static ConfigEntry<float> TAAJitterSpread { get; set; }
+        public static ConfigEntry<float> TAAMotionBlending { get; set; }
+        public static ConfigEntry<float> TAAStationaryBlending { get; set; }
+        public static ConfigEntry<float> TAASharpness { get; set; }
+
 
         public static void OnUpdateSettings(object sender, EventArgs args)
         {
@@ -49,36 +56,54 @@ namespace shadowflickerfix
                 distantShadow.CurrentMaskResolution = ResolutionState.Value;
             }
 
-            if (envManager != null && ShadowChangesEnabled.Value == true)
+            if (envManager != null)
             {
-                FieldInfo shadowMin = typeof(EnvironmentManager).GetField("ShadowMinDistance", BindingFlags.Instance | BindingFlags.NonPublic);
-                FieldInfo shadowInterval1 = typeof(EnvironmentManager).GetField("ShadowInterval1", BindingFlags.Instance | BindingFlags.NonPublic);
-                FieldInfo shadowInterval2 = typeof(EnvironmentManager).GetField("ShadowInterval2", BindingFlags.Instance | BindingFlags.NonPublic);
-                FieldInfo shadowDecreaseFactor = typeof(EnvironmentManager).GetField("ShadowDecreaseFactor", BindingFlags.Instance | BindingFlags.NonPublic);
+                if (ShadowChangesEnabled.Value == true)
+                {
+                    QualitySettings.shadowCascades = (int)ShadowCascades.Value;
+                    QualitySettings.shadowResolution = ShadowResolution.Value;
 
-                QualitySettings.shadowCascades = (int)ShadowCascades.Value;
-                QualitySettings.shadowResolution = ShadowResolution.Value;
-                shadowMin.SetValue(envManager, ShadowMinimumDistance.Value);
-                shadowInterval1.SetValue(envManager, ShadowIntervalFirst.Value);
-                shadowInterval2.SetValue(envManager, ShadowIntervalSecond.Value);
-                shadowDecreaseFactor.SetValue(envManager, ShadowDecreaseFactor.Value);
+                    if (AdvancedShadowChangesEnabled.Value == true)
+                    {
+                        FieldInfo shadowMin = typeof(EnvironmentManager).GetField("ShadowMinDistance", BindingFlags.Instance | BindingFlags.NonPublic);
+                        FieldInfo shadowInterval1 = typeof(EnvironmentManager).GetField("ShadowInterval1", BindingFlags.Instance | BindingFlags.NonPublic);
+                        FieldInfo shadowInterval2 = typeof(EnvironmentManager).GetField("ShadowInterval2", BindingFlags.Instance | BindingFlags.NonPublic);
+                        FieldInfo shadowDecreaseFactor = typeof(EnvironmentManager).GetField("ShadowDecreaseFactor", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                        shadowMin.SetValue(envManager, ShadowMinimumDistance.Value);
+                        shadowInterval1.SetValue(envManager, ShadowIntervalFirst.Value);
+                        shadowInterval2.SetValue(envManager, ShadowIntervalSecond.Value);
+                        shadowDecreaseFactor.SetValue(envManager, ShadowDecreaseFactor.Value);
+                    }
+                }
             }
 
-            // as much as i would like to have the damn setting in the settings menu
-            // idk how to do that so... gg? maybe one day lol
-            if (ppLayer != null && SMAAEnabled.Value == true)
+            if (ppLayer != null)
             {
-                ppLayer.antialiasingMode = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;
-                smaa.quality = SMAAQuality.Value;
-            }
-            else
-            {
-                EAntialiasingMode lastAntiAliasing = SetAntiAliasingPatch.lastAntiAliasingMode;
-                EDLSSMode lastDlss = SetAntiAliasingPatch.lastDlssMode;
-                EFSR2Mode lastFSR = SetAntiAliasingPatch.lastFSR2Mode;
-                EFSR3Mode lastFSR3 = SetAntiAliasingPatch.lastFSR3Mode;
+                if (TAAChangesEnabled.Value == true)
+                {
+                    TemporalAntialiasing taa = ppLayer.temporalAntialiasing;
 
-                CameraClass.Instance.SetAntiAliasing(lastAntiAliasing, lastDlss, lastFSR, lastFSR3);
+                    taa.jitterSpread = TAAJitterSpread.Value;
+                    taa.motionBlending = TAAMotionBlending.Value;
+                    taa.stationaryBlending = TAAStationaryBlending.Value;
+                    taa.sharpness = TAASharpness.Value;
+                }
+
+                if (SMAAEnabled.Value == true)
+                {
+                    ppLayer.antialiasingMode = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;
+                    smaa.quality = SMAAQuality.Value;
+                }
+                else
+                {
+                    EAntialiasingMode lastAntiAliasing = SetAntiAliasingPatch.lastAntiAliasingMode;
+                    EDLSSMode lastDlss = SetAntiAliasingPatch.lastDlssMode;
+                    EFSR2Mode lastFSR = SetAntiAliasingPatch.lastFSR2Mode;
+                    EFSR3Mode lastFSR3 = SetAntiAliasingPatch.lastFSR3Mode;
+
+                    CameraClass.Instance.SetAntiAliasing(lastAntiAliasing, lastDlss, lastFSR, lastFSR3);
+                }
             }
         }
 
@@ -86,7 +111,8 @@ namespace shadowflickerfix
         {
             string distantShadows = "1. Distant Shadows";
             string shadows = "2. Shadows";
-            string antialias = "3. Anti-Aliasing";
+            string shadowsAdvanced = "3. Shadows (Advanced)";
+            string antialias = "4. Anti-Aliasing";
 
             // Distant Shadows
             ResolutionState = Config.Bind(distantShadows, "Distant Shadow Resolution", DistantShadow.ResolutionState.FULL, new ConfigDescription(
@@ -114,25 +140,32 @@ namespace shadowflickerfix
                     new ConfigurationManagerAttributes { Order = 970 }
                 ));
 
-            ShadowDecreaseFactor = Config.Bind(shadows, "Shadow Decrease Factor", 0.5f, new ConfigDescription(
+            // Advanced Shadows
+            AdvancedShadowChangesEnabled = Config.Bind(shadowsAdvanced, "Enable Advanced Shadow Changes", false, new ConfigDescription(
+                    "Enables advanced shadow settings. Shadow changes have to be enabled for this to work.",
+                    null,
+                    new ConfigurationManagerAttributes { Order = 965 }
+                ));
+
+            ShadowDecreaseFactor = Config.Bind(shadowsAdvanced, "Shadow Decrease Factor", 0.5f, new ConfigDescription(
                     "Changes the shadow decrease factor. Lowering the value sharpens the shadows considerably but also reduces FPS.",
                     new AcceptableValueRange<float>(0.01f, 5f),
                     new ConfigurationManagerAttributes { Order = 960 }
                 ));
 
-            ShadowMinimumDistance = Config.Bind(shadows, "Minimum Shadow Distance", 20f, new ConfigDescription(
+            ShadowMinimumDistance = Config.Bind(shadowsAdvanced, "Minimum Shadow Distance", 20f, new ConfigDescription(
                     "Changes the minimum shadow distance. At least that's my very best guess. No clue what it actually does, but it's here if you want to play around with it.",
                     null,
                     new ConfigurationManagerAttributes { Order = 950 }
                 ));
 
-            ShadowIntervalFirst = Config.Bind(shadows, "Shadow Interval 1", new Vector2(10f, 50f), new ConfigDescription(
+            ShadowIntervalFirst = Config.Bind(shadowsAdvanced, "Shadow Interval 1", new Vector2(10f, 50f), new ConfigDescription(
                     "Changes the distance at which shadows start fading from one quality to another. I think.",
                     null,
                     new ConfigurationManagerAttributes { Order = 940 }
                 ));
 
-            ShadowIntervalSecond = Config.Bind(shadows, "Shadow Interval 2", new Vector2(75f, 100f), new ConfigDescription(
+            ShadowIntervalSecond = Config.Bind(shadowsAdvanced, "Shadow Interval 2", new Vector2(75f, 100f), new ConfigDescription(
                     "Changes the distance at which shadows start fading from one quality to another. I think.",
                     null,
                     new ConfigurationManagerAttributes { Order = 930 }
@@ -151,6 +184,36 @@ namespace shadowflickerfix
                     new ConfigurationManagerAttributes { Order = 910 }
                 ));
 
+            TAAChangesEnabled = Config.Bind(antialias, "Enable TAA Changes", false, new ConfigDescription(
+                    "Enables TAA changes. Reduces TAA blur on 1080p displays but increases aliasing as a trade off. Requires game restart.",
+                    null,
+                    new ConfigurationManagerAttributes { Order = 905 }
+                ));
+
+            TAAJitterSpread = Config.Bind(antialias, "TAA Jitter Spread", 0.5f, new ConfigDescription(
+                    "Changes TAA jitter spread.",
+                    null,
+                    new ConfigurationManagerAttributes { Order = 900 }
+                ));
+
+            TAAMotionBlending = Config.Bind(antialias, "TAA Motion Blending", 0.5f, new ConfigDescription(
+                    "Changes TAA motion blending.",
+                    null,
+                    new ConfigurationManagerAttributes { Order = 890 }
+                ));
+
+            TAAStationaryBlending = Config.Bind(antialias, "TAA Stationary Blending", 0.5f, new ConfigDescription(
+                    "Changes TAA stationary blending.",
+                    null,
+                    new ConfigurationManagerAttributes { Order = 880 }
+                ));
+
+            TAASharpness = Config.Bind(antialias, "TAA Sharpness", 0.5f, new ConfigDescription(
+                    "Changes TAA sharpness. This sharpens the image while in motion and is thus very unstable at higher values.",
+                    new AcceptableValueRange<float>(0.01f, 1f),
+                    new ConfigurationManagerAttributes { Order = 870 }
+                ));
+
             // Method binds
             ResolutionState.SettingChanged += OnUpdateSettings;
 
@@ -158,6 +221,7 @@ namespace shadowflickerfix
             ShadowChangesEnabled.SettingChanged += OnUpdateSettings;
             ShadowCascades.SettingChanged += OnUpdateSettings;
             ShadowResolution.SettingChanged += OnUpdateSettings;
+            AdvancedShadowChangesEnabled.SettingChanged += OnUpdateSettings;
             ShadowDecreaseFactor.SettingChanged += OnUpdateSettings;
             ShadowMinimumDistance.SettingChanged += OnUpdateSettings;
             ShadowIntervalFirst.SettingChanged += OnUpdateSettings;
@@ -165,6 +229,11 @@ namespace shadowflickerfix
 
             SMAAEnabled.SettingChanged += OnUpdateSettings;
             SMAAQuality.SettingChanged += OnUpdateSettings;
+            TAAChangesEnabled.SettingChanged += OnUpdateSettings;
+            TAAJitterSpread.SettingChanged += OnUpdateSettings;
+            TAAMotionBlending.SettingChanged += OnUpdateSettings;
+            TAAStationaryBlending.SettingChanged += OnUpdateSettings;
+            TAASharpness.SettingChanged += OnUpdateSettings;
         }
 
         private void Awake()
