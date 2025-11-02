@@ -17,7 +17,7 @@ namespace shadowflickerfix
         High = 4,
     }
 
-    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.5.0")]
+    [BepInPlugin("com.pein.shadowflickerfix", "Shadow Flicker Fix", "1.5.2")]
     public class Plugin : BaseUnityPlugin
     {
         // Distant Shadows
